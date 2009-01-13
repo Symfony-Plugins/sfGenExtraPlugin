@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+  <name>sfGenExtraPlugin</name>
+  <channel>pear.symfony-project.com</channel>
+  <summary>Form and Generator Components</summary>
+  <description>Form and Generator Components</description>
+  <lead>
+    <name>Jacques Philip</name>
+    <user>jphilip</user>
+    <email>jphilip@noatak.com</email>
+    <active>yes</active>
+  </lead>
+  <date>2009-01-12</date>
+  <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+  </version>
+  <stability>
+    <release>beta</release>
+    <api>beta</api>
+  </stability>
+  <license uri="http://www.symfony-project.org/license">MIT license</license>
+  <notes>-</notes>
+  <contents>
+<dir name="/"><dir name="config"><file name="sfGenExtraPluginConfiguration.class.php" role="data"/></dir><dir name="lib"><dir name="form"><file name="genExtraFormFilterDoctrine.class.php" role="data"/></dir><dir name="listener"><file name="genExtraListeners.class.php" role="data"/></dir><dir name="validator"><file name="constantValidatorSchemaCompare.class.php" role="data"/><file name="genExtraValidatorNumberRange.class.php" role="data"/></dir><dir name="widget"><file name="genExtraWidgetFormFilterNumber.class.php" role="data"/><file name="genExtraWidgetFormNumberRange.class.php" role="data"/><file name="genExtraWidgetFormRichDate.class.php" role="data"/></dir></dir><file name="LICENSE" role="data"/><file name="README" role="data"/><dir name="web"><dir name="images"><file name="screen.png" role="data"/></dir></dir></dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>5.2.4</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.1</min>
+      </pearinstaller>
+      <package>
+        <name>symfony</name>
+        <channel>pear.symfony-project.com</channel>
+        <min>1.2.0</min>
+        <max>1.3.0</max>
+        <exclude>1.3.0</exclude>
+      </package>
+    </required>
+  </dependencies>
+  <phprelease></phprelease>
+  <changelog></changelog>
+</package>

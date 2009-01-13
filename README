@@ -1,0 +1,120 @@
+# sfGenExtraPlugin - Form and Generator Components #
+
+## Author ##
+
+Copyright (C) 2008 Jacques Philip. 
+
+## License ##
+
+MIT
+
+## Prerequisites ##
+
+ - Symfony 1.2 for generator components
+ - Symfony 1.1 for form components
+
+## Installation ##
+
+Install plugin as usual from svn or command line.   
+Do not forget to enable the plugin in your main configuration file.
+
+## Components ##
+
+### 3 way sort on admin generated forms: ###
+    
+In the standard admin forms, you can click on a column header in list view to sort the list by that field, a second click will reverse the order but after you sort by one field you cannot get rid of the sort other than sorting by another field.   
+If the original order was the primary key and you don't have it displayed in a column, you simply cannot get back to it.   
+This allows a third click on a column to remove all sorts.   
+This is accomplished through a listener and it can be disabled in the settings.yml file in 2 ways:
+
+    gen_extra_disable_3_way_sort: on
+
+To disable the 3 way switch only
+
+or
+
+    gen_extra_disable_pre_execute_listener: on
+
+To disable the whole listener
+
+
+### Filter on a range of numbers instead of exact values: ###
+
+![Screen shot][1]
+
+By default, with strings and dates, you can filter on partial or a range of values, but with numbers, you are limited to exact values.   
+This allows you to filter on a range of numbers.
+
+**First** you have to replace or insert the widget and validator for the field concerned in your form class:
+
+    //In setup method of custom forms or initialize method of generated forms
+        $this->setWidgets(array(
+        ...
+          'number_field' => new genExtraWidgetFormFilterNumber(array('from_number' => new sfWidgetFormInput(), 'to_number' => new sfWidgetFormInput(), 'with_empty' => true)),
+        ...
+        
+        $this->setValidators(array(
+        ...
+          'number_field' => new genExtraValidatorNumberRange(array('required' => false, 'from_number' => new sfValidatorInteger(array('required' => false)), 'to_number' => new sfValidatorInteger(array('required' => false)))),
+        ...
+
+**Second** you need in the Doctrine version to override the addNumberQuery method of the base filter form.   
+The plugin provides the Doctrine version in the genExtraFormFilterDoctrine class.   
+**If anyone comes up with the Propel version, please send it to me, I will add it.**   
+All you have to do is to inherit your base filter form class from genExtraFormFilterDoctrine:
+
+    abstract class BaseFormFilterDoctrine extends genExtraFormFilterDoctrine
+    {
+    
+    }
+
+
+### Validate a field against a constant value ###
+
+The sfValidatorSchemaCompare class allows you to have validation comparing 2 fields, but does not allow comparing a field to a constant value.   
+
+The constantValidatorSchemaCompare class just allows you to do that.
+The syntax is the same as sfValidatorSchemaCompare except that the third parameter is a constant and it can be used with AND or OR validators to create complex validation:
+
+    $this->validatorSchema->setPostValidator(
+    new sfValidatorAnd(array( 
+      new sfValidatorOr(array(
+        new constantValidatorSchemaCompare('current_residence_city_other', '!=', '',
+          array('throw_global_error' => false),
+          array('invalid' => "Current residence other is required for 'Other AK', 'Non AK' and 'Multiple'")),
+        new constantValidatorSchemaCompare('current_residence_city_id', '<', 99980,
+          array('throw_global_error' => false),
+          array('invalid' => "Current residence other is required for 'Other AK', 'Non AK' and 'Multiple'")),
+        new constantValidatorSchemaCompare('current_residence_city_id', '>', 99982,
+          array('throw_global_error' => false),
+          array('invalid' => "Current residence other is required for 'Other AK', 'Non AK' and 'Multiple'"))
+      )),
+      new sfValidatorOr(array(
+        new constantValidatorSchemaCompare('birth_mother_residence_city_other', '!=', '',
+          array('throw_global_error' => false),
+          array('invalid' => "Birth residence other is required for 'Other AK', 'Non AK' and 'Multiple'")),
+        new constantValidatorSchemaCompare('birth_mother_residence_city_id', '<', 99980,
+          array('throw_global_error' => false),
+          array('invalid' => "Birth residence other is required for 'Other AK', 'Non AK' and 'Multiple'")),
+        new constantValidatorSchemaCompare('birth_mother_residence_city_id', '>', 99982,
+          array('throw_global_error' => false),
+          array('invalid' => "Birth residence other is required for 'Other AK', 'Non AK' and 'Multiple'"))
+      ))
+    )));
+
+### Widget for the Symfony 1.0 style date and date range filter entry ###
+
+You have to replace or insert the widget and validator for the field concerned in your form class:
+
+    //In setup method of custom forms or initialize method of generated forms
+    ...
+    'date_field' => new sfWidgetFormFilterDate(array('from_date' => new genExtraWidgetFormRichDate(), 'to_date' => new genExtraWidgetFormRichDate(), 'with_empty' => true)),
+    ...
+    
+    $this->setValidators(array(
+    ...
+      'date_field' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+    ...
+
+  [1]: http://svn.symfony-project.com/plugins/sfGenExtraPlugin/web/images/screen.png
+
