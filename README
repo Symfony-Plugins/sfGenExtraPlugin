@@ -116,5 +116,5 @@ You have to replace or insert the widget and validator for the field concerned i
       'date_field' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ...
 
-  [1]: http://svn.symfony-project.com/plugins/sfGenExtraPlugin/web/images/screen.png
+  [1]: http://svn.symfony-project.com/plugins/sfGenExtraPlugin/trunk/web/images/screen.png
 
