@@ -115,6 +115,10 @@ You have to replace or insert the widget and validator for the field concerned i
     ...
       'date_field' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ...
+    
+To edit the time in AM/PM format, you have to turn off the rich option and set the 12hour_time attribute to true:
+
+    'date_field' => new genExtraWidgetFormRichDate(array('rich' => false), array('withtime' => true, 'datetime_seperator' => ' at ', '12hour_time' => true));
 
   [1]: http://svn.symfony-project.com/plugins/sfGenExtraPlugin/trunk/web/images/screen.png
 
