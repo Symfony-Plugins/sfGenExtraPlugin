@@ -8,14 +8,22 @@ class genExtraWidgetFormRichDate extends sfWidgetFormDate
 {
 
   /**
-  * @param array $options An array of options
-  * @param array $attributes An array of default HTML attributes
-  *
-  * @see sfWidgetForm
-  */
+   * Configures the current widget.
+   *
+   * Available options:
+   *
+   *  * rich:       Allows to turn off rich rendering when 12 hour time is needed because it does not display good when rich
+   *
+   * @param array $options     An array of options
+   * @param array $attributes  An array of default HTML attributes
+   *
+   * @see sfWidgetForm
+   */
   protected function configure($options = array(), $attributes = array())
   {
     parent::configure($options, $attributes);
+    
+    $this->addOption('rich', true);
   }
 
   /**
@@ -30,10 +38,12 @@ class genExtraWidgetFormRichDate extends sfWidgetFormDate
   */
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
+    $attributes = array_merge($this->attributes, $attributes);
+    
     //Get the date input function from Form helper
     use_helper('Form');
-    //Make the widget rich
-    $attributes['rich']=true;
+    //Make the widget rich or not
+    $attributes['rich'] = $this->getOption('rich');
     return input_date_tag($name,$value, $attributes);
   }
 }
