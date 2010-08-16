@@ -44,6 +44,10 @@ class genExtraWidgetFormRichDate extends sfWidgetFormDate
     use_helper('Form');
     //Make the widget rich or not
     $attributes['rich'] = $this->getOption('rich');
+    if (isset($attributes['withtime']))
+      $attributes['format'] = "yyyy-MM-dd hh:mm";
+    else
+      $attributes['format'] = "yyyy-MM-dd";
     return input_date_tag($name,$value, $attributes);
   }
 }
